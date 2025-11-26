@@ -2,7 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 
-public class Product {
+public abstract class Product {
     protected String id;
     protected String name;
     protected BigDecimal price;
@@ -21,5 +21,34 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Product: " +
+                "name = " + name +
+                ", id = " + id +
+                ", price = " + price +
+                ", quantity = " + quantity;
     }
 }

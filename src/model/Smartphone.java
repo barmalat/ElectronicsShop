@@ -31,6 +31,15 @@ public class Smartphone extends Product {
         this.accessories = accessories;
     }
 
+    @Override
+    public String toString() {
+        return "Smartphone: " +
+                "name = " + name +
+                ", id = " + id +
+                ", price = " + price +
+                ", quantity = " + quantity;
+    }
+
     public void config() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Konfiguracja smartfona: " + name);

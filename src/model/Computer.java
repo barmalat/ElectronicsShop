@@ -25,6 +25,15 @@ public class Computer extends Product {
         this.ramMemory = ramMemory;
     }
 
+    @Override
+    public String toString() {
+        return "Computer: " +
+                "name = " + name +
+                ", id = " + id +
+                ", price = " + price +
+                ", quantity = " + quantity;
+    }
+
     public void config() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Konfiguracja komputera: " + name);

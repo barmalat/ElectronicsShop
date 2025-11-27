@@ -8,7 +8,11 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ProductManager {
-    private Map<String, Product> productsMap = new HashMap<>();
+    private static Map<String, Product> productsMap = new HashMap<>();
+
+    public static Map<String, Product> getProductsMap() {
+        return productsMap;
+    }
 
     public void addProduct(Product product) {
         if (!productsMap.containsKey(product.getId())) {

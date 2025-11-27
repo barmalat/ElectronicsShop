@@ -13,6 +13,6 @@ public class Electronic extends Product {
                 "name = " + name +
                 ", id = " + id +
                 ", price = " + price +
-                ", quantity = " + quantity;
+                ", quantity = " + stock;
     }
 }

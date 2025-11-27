@@ -1,4 +1,4 @@
-package app;
+package managers;
 
 import model.Product;
 
@@ -10,18 +10,14 @@ import java.util.Scanner;
 public class ProductManager {
     private static Map<String, Product> productsMap = new HashMap<>();
 
-    public static Map<String, Product> getProductsMap() {
-        return productsMap;
-    }
-
     public void addProduct(Product product) {
         if (!productsMap.containsKey(product.getId())) {
             productsMap.put(product.getId(), product);
             System.out.println("Dodano produkt: " + product.getName());
         } else {
             System.out.println("W naszym magazynie znajduje się już produkt o takim ID. Zwiększam stan magazynowy o podaną ilość.");
-            int oldQuantity = productsMap.get(product.getId()).getQuantity();
-            productsMap.get(product.getId()).setQuantity(oldQuantity + product.getQuantity());
+            int oldStock = productsMap.get(product.getId()).getStock();
+            productsMap.get(product.getId()).setStock(oldStock + product.getStock());
         }
     }
 
@@ -52,11 +48,11 @@ public class ProductManager {
         product.setPrice(new BigDecimal(newPrice));
     }
 
-    private void updateProductsQuantity(Product product){
+    private void updateProductsStock(Product product){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj nową ilość:");
-        int newQuantity = scanner.nextInt();
-        product.setQuantity(newQuantity);
+        int newStock = scanner.nextInt();
+        product.setStock(newStock);
     }
 
     public void updateProduct(String id) {
@@ -69,7 +65,7 @@ public class ProductManager {
             switch (opt) {
                 case "1" -> updateProductsName(p);
                 case "2" -> updateProductsPrice(p);
-                case "3" -> updateProductsQuantity(p);
+                case "3" -> updateProductsStock(p);
                 default -> System.out.println("Wybrano złą opcję.");
             }
         } else System.out.println("Nie znaleziono produktu o podanym ID");

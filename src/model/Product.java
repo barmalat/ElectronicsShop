@@ -6,21 +6,21 @@ public abstract class Product {
     protected String id;
     protected String name;
     protected BigDecimal price;
-    protected int quantity;
+    protected int stock;
 
     public Product(String id, String name, BigDecimal price, int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
+        this.stock = quantity;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getId() {
@@ -49,6 +49,6 @@ public abstract class Product {
                 "name = " + name +
                 ", id = " + id +
                 ", price = " + price +
-                ", quantity = " + quantity;
+                ", quantity = " + stock;
     }
 }

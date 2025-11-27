@@ -1,5 +1,6 @@
 package app;
 
+import managers.ProductManager;
 import model.Computer;
 import model.Electronic;
 import model.Smartphone;

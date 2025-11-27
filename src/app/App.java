@@ -2,7 +2,6 @@ package app;
 
 import model.Computer;
 import model.Electronic;
-import model.Product;
 import model.Smartphone;
 
 import java.math.BigDecimal;

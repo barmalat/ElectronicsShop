@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ProductManager {
-    Map<String, Product> productsMap = new HashMap<>();
+    private Map<String, Product> productsMap = new HashMap<>();
 
     public void addProduct(Product product) {
         if (!productsMap.containsKey(product.getId())) {
@@ -34,6 +34,27 @@ public class ProductManager {
                 .forEach(System.out::println);
     }
 
+    private void updateProductsName(Product product) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj nową nazwę:");
+        String newName = scanner.nextLine();
+        product.setName(newName);
+    }
+
+    private void updateProductsPrice(Product product){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj nową cenę:");
+        double newPrice = scanner.nextDouble();
+        product.setPrice(new BigDecimal(newPrice));
+    }
+
+    private void updateProductsQuantity(Product product){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj nową ilość:");
+        int newQuantity = scanner.nextInt();
+        product.setQuantity(newQuantity);
+    }
+
     public void updateProduct(String id) {
         if (productsMap.containsKey(id)) {
             Product p = productsMap.get(id);
@@ -41,25 +62,12 @@ public class ProductManager {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Co chcesz zaktualizować? \n1 - nazwę, \n2 - cenę, \n3 - ilość na stanie");
             String opt = scanner.nextLine();
-            switch (opt){
-                case "1" -> {
-                    System.out.println("Podaj nową nazwę:");
-                    String newName = scanner.nextLine();
-                    p.setName(newName);
-                }
-                case "2" -> {
-                    System.out.println("Podaj nową cenę:");
-                    double newPrice = scanner.nextDouble();
-                    p.setPrice(new BigDecimal(newPrice));
-                }
-                case "3" -> {
-                    System.out.println("Podaj nową ilość:");
-                    int newQuantity = scanner.nextInt();
-                    p.setQuantity(newQuantity);
-                }
+            switch (opt) {
+                case "1" -> updateProductsName(p);
+                case "2" -> updateProductsPrice(p);
+                case "3" -> updateProductsQuantity(p);
                 default -> System.out.println("Wybrano złą opcję.");
             }
-
         } else System.out.println("Nie znaleziono produktu o podanym ID");
     }
 }

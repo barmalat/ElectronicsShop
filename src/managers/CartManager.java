@@ -6,7 +6,6 @@ import model.Person;
 import model.Product;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CartManager {
@@ -29,7 +28,7 @@ public class CartManager {
 
     public void showCart(Cart cart) {
         if (cart.getShoppingCart().isEmpty()) {
-            System.err.println("Koszyk jest pusty.");
+            System.out.println("Koszyk jest pusty.");
         } else {
             System.out.println("Zawartość koszyka:");
             cart.getShoppingCart().forEach((product, quantity) ->
@@ -39,15 +38,14 @@ public class CartManager {
         }
     }
 
-    public Order makeOrder(Cart cart) {
+    public void makeOrder(Cart cart) {
         if (cart.getShoppingCart().isEmpty()) {
-            System.err.println("Koszyk jest pusty, nie można złożyć zamówienia.");
-            return null;
+            System.out.println("Koszyk jest pusty, nie można złożyć zamówienia.");
         }
         Map<Product, Integer> cartToOrder = cart.getShoppingCart();
         Order order = new Order(new Person(), cartToOrder);
-        System.out.println("Złożono zamówienie.");
+        OrderProcessor.getOrders().add(order);
+        System.out.println("Złożono zamówienie. Twój numer zamówienia to: " + order.getOrderId());
         cart.getShoppingCart().clear();
-        return order;
     }
 }

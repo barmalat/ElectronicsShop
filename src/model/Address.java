@@ -14,4 +14,13 @@ public class Address {
         this.streetNumber = streetNumber;
         this.apartmentNumber = apartmentNumber;
     }
+
+    @Override
+    public String toString() {
+        return country + ", " +
+                city + ", " +
+                street + ", " +
+                streetNumber + ", " +
+                apartmentNumber;
+    }
 }

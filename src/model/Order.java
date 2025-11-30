@@ -5,17 +5,38 @@ import java.util.Map;
 
 public class Order {
     private Person customer;
-    private Map<Product, Integer> finalCart;
-    private BigDecimal totalPrice;
+    private final Map<Product, Integer> finalCart;
+    private final BigDecimal totalPrice;
+    private final int orderId;
+
+    private static int staticOrderId = 0;
 
     public Order(Person customer, Map<Product, Integer> finalCart) {
         this.customer = customer;
         this.finalCart = finalCart;
         this.totalPrice = calculateTotalPrice(finalCart);
+        this.orderId = staticOrderId;
+        staticOrderId++;
     }
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
+    }
+
+    public Person getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Person customer) {
+        this.customer = customer;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public Map<Product, Integer> getFinalCart() {
+        return finalCart;
     }
 
     private BigDecimal calculateTotalPrice(Map<Product, Integer> finalCart){

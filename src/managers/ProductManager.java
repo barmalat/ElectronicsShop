@@ -5,7 +5,6 @@ import model.Product;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ProductManager {
     private static Map<String, Product> productsMap = new HashMap<>();
@@ -21,6 +20,14 @@ public class ProductManager {
         }
     }
 
+    public static Product findById(String id) {
+        if (!productsMap.containsKey(id)) {
+            System.err.println("Nie znaleziono produktu o podanym ID");
+            return null;
+        }
+        return productsMap.get(id);
+    }
+
     public void deleteProduct(String id) {
         if (productsMap.containsKey(id)) {
             System.out.println("Usunięto produkt: " + productsMap.get(id).getName());
@@ -34,40 +41,21 @@ public class ProductManager {
                 .forEach(System.out::println);
     }
 
-    private void updateProductsName(Product product) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj nową nazwę:");
-        String newName = scanner.nextLine();
+    public void updateProductName(String productId, String newName) {
+        Product product = productsMap.get(productId);
         product.setName(newName);
+        System.out.println("Zaktualizowane nazwę produktu o ID: " + product.getId());
     }
 
-    private void updateProductsPrice(Product product){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj nową cenę:");
-        double newPrice = scanner.nextDouble();
-        product.setPrice(new BigDecimal(newPrice));
+    public void updateProductPrice(String productId, double newPrice) {
+        Product product = productsMap.get(productId);
+        product.setPrice(BigDecimal.valueOf(newPrice));
+        System.out.println("Zaktualizowano cenę produktu o ID: " + product.getId());
     }
 
-    private void updateProductsStock(Product product){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj nową ilość:");
-        int newStock = scanner.nextInt();
+    public void updateProductStock(String productId, int newStock) {
+        Product product = productsMap.get(productId);
         product.setStock(newStock);
-    }
-
-    public void updateProduct(String id) {
-        if (productsMap.containsKey(id)) {
-            Product p = productsMap.get(id);
-            System.out.println("Aktualizujesz dane o produkcie: " + p);
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Co chcesz zaktualizować? \n1 - nazwę, \n2 - cenę, \n3 - ilość na stanie");
-            String opt = scanner.nextLine();
-            switch (opt) {
-                case "1" -> updateProductsName(p);
-                case "2" -> updateProductsPrice(p);
-                case "3" -> updateProductsStock(p);
-                default -> System.out.println("Wybrano złą opcję.");
-            }
-        } else System.out.println("Nie znaleziono produktu o podanym ID");
+        System.out.println("Zaktualizowano stan magazynowy produktu o ID: " + product.getId());
     }
 }

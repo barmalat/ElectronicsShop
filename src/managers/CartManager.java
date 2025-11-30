@@ -1,13 +1,18 @@
 package managers;
 
 import model.Cart;
+import model.Order;
+import model.Person;
 import model.Product;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CartManager {
 
-    public void addToCart(Cart cart, Product product, int quantity) {
+    public void addToCart(Cart cart, String productId, int quantity) {
+        Product product = ProductManager.findById(productId);
         if (quantity > product.getStock()) {
             System.err.println("Niestety, wskazana ilość przekracza stany magazynowe!");
         } else {
@@ -29,17 +34,20 @@ public class CartManager {
             System.out.println("Zawartość koszyka:");
             cart.getShoppingCart().forEach((product, quantity) ->
                     System.out.println(product.getName() + ", ilość: " +
-                    quantity + "łączna wartość: " +
-                    product.getPrice().multiply(BigDecimal.valueOf(quantity))));
+                            quantity + ", łączna wartość: " +
+                            product.getPrice().multiply(BigDecimal.valueOf(quantity))));
         }
     }
 
-    public void makeOrder(Cart cart) {
+    public Order makeOrder(Cart cart) {
         if (cart.getShoppingCart().isEmpty()) {
             System.err.println("Koszyk jest pusty, nie można złożyć zamówienia.");
-        } else {
-            System.out.println("Złożono zamówienie.");
-            cart.getShoppingCart().clear();
+            return null;
         }
+        Map<Product, Integer> cartToOrder = cart.getShoppingCart();
+        Order order = new Order(new Person(), cartToOrder);
+        System.out.println("Złożono zamówienie.");
+        cart.getShoppingCart().clear();
+        return order;
     }
 }

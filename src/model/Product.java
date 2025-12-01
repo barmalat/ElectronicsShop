@@ -51,6 +51,6 @@ public abstract class Product {
                 "name = " + name +
                 ", id = " + id +
                 ", price = " + price +
-                ", quantity = " + stock;
+                ", stock = " + stock;
     }
 }

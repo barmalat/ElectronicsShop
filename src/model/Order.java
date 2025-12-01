@@ -1,6 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class Order {
@@ -8,6 +9,7 @@ public class Order {
     private final Map<Product, Integer> finalCart;
     private final BigDecimal totalPrice;
     private final int orderId;
+    private LocalDateTime orderTime;
 
     private static int staticOrderId = 0;
 
@@ -16,6 +18,7 @@ public class Order {
         this.finalCart = finalCart;
         this.totalPrice = calculateTotalPrice(finalCart);
         this.orderId = staticOrderId;
+        this.orderTime = LocalDateTime.now();
         staticOrderId++;
     }
 
@@ -33,6 +36,10 @@ public class Order {
 
     public Map<Product, Integer> getFinalCart() {
         return finalCart;
+    }
+
+    public LocalDateTime getOrderTime() {
+        return orderTime;
     }
 
     public static int getStaticOrderId() {

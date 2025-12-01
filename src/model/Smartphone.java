@@ -4,31 +4,12 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Smartphone extends Product {
-    private String color;
-    private int batteryCapacity;
-    private String accessories;
-
-    public Smartphone(String id, String name, BigDecimal price, int quantity, String color, int batteryCapacity, String accessories) {
-        super(id, name, price, quantity);
-        this.color = color;
-        this.batteryCapacity = batteryCapacity;
-        this.accessories = accessories;
-    }
+    private String color = "Kolor do konfiguracji własnej";
+    private String batteryCapacity = "Bateria do konfiguracji własnej";
+    private String accessories = "Akcesoria do konfiguracji własnej";
 
     public Smartphone(String id, String name, BigDecimal price, int quantity) {
         super(id, name, price, quantity);
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setBatteryCapacity(int batteryCapacity) {
-        this.batteryCapacity = batteryCapacity;
-    }
-
-    public void setAccessories(String accessories) {
-        this.accessories = accessories;
     }
 
     @Override
@@ -36,8 +17,11 @@ public class Smartphone extends Product {
         return "Smartphone: " +
                 "name = " + name +
                 ", id = " + id +
+                ", color = " + color +
+                ", batteryCapacity = " + batteryCapacity +
+                ", accessories = " + accessories +
                 ", price = " + price +
-                ", quantity = " + stock;
+                ", stock = " + stock;
     }
 
     public void config() {
@@ -46,7 +30,7 @@ public class Smartphone extends Product {
         System.out.println("Podaj kolor:");
         color = scanner.nextLine();
         System.out.println("Podaj pojemność baterii:");
-        batteryCapacity = scanner.nextInt();
+        batteryCapacity = scanner.nextLine();
         System.out.println("Podaj dodatkowe akcesoria do smartfona:");
         accessories = scanner.nextLine();
     }

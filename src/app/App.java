@@ -14,11 +14,11 @@ public class App {
     public static void main(String[] args) {
         ProductManager productManager = new ProductManager();
 
-        productManager.addProduct(new Electronic("ASD4325", "Suszarka Dyson", BigDecimal.valueOf(349.99), 2));
-        productManager.addProduct(new Computer("001", "Lenovo thinkPad", new BigDecimal(2200), 8));
-        productManager.addProduct(new Computer("001", "Lenovo thinkPad", new BigDecimal(2200), 2));
-        productManager.addProduct(new Computer("002", "ASUS ROG", new BigDecimal(4200), 4));
-        productManager.addProduct(new Smartphone("S0001", "Samsung", BigDecimal.valueOf(1249.99), 9));
+        productManager.addProduct(new Electronic("1", "Suszarka Dyson", BigDecimal.valueOf(349.99), 2));
+        productManager.addProduct(new Computer("2", "Lenovo thinkPad", new BigDecimal(2200), 8));
+        productManager.addProduct(new Computer("3", "Lenovo thinkPad", new BigDecimal(2200), 2));
+        productManager.addProduct(new Computer("4", "ASUS ROG", new BigDecimal(4200), 4));
+        productManager.addProduct(new Smartphone("5", "Samsung", BigDecimal.valueOf(1249.99), 9));
 
         //productManager.showAll();
 

@@ -39,6 +39,7 @@ public class OrderProcessor {
         Order order = orders.get(orderId);
         System.out.println("FAKTURA:");
         System.out.println("Zamówienie nr: " + order.getOrderId());
+        System.out.println("Data: " + order.getOrderTime());
         System.out.println("Dane do wysyłki: " + order.getCustomer());
         showFinalCart(orderId);
     }

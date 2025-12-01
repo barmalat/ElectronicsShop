@@ -4,25 +4,11 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Computer extends Product {
-    private String processor;
-    private int ramMemory;
+    private String processor = "CPU do konfiguracji własnej";
+    private String ramMemory = "RAM do konfiguracji własnej";
 
-    public Computer(String id, String name, BigDecimal price, int quantity, String processor, int ramMemory) {
-        super(id, name, price, quantity);
-        this.processor = processor;
-        this.ramMemory = ramMemory;
-    }
-
-    public Computer(String id, String name, BigDecimal price, int quantity) {
-        super(id, name, price, quantity);
-    }
-
-    public void setProcessor(String processor) {
-        this.processor = processor;
-    }
-
-    public void setRamMemory(int ramMemory) {
-        this.ramMemory = ramMemory;
+    public Computer(String id, String name, BigDecimal price, int stock) {
+        super(id, name, price, stock);
     }
 
     @Override
@@ -30,8 +16,10 @@ public class Computer extends Product {
         return "Computer: " +
                 "name = " + name +
                 ", id = " + id +
+                ", processor = " + processor +
+                ", ramMemory = " + ramMemory +
                 ", price = " + price +
-                ", quantity = " + stock;
+                ", stock = " + stock;
     }
 
     public void config() {
@@ -40,6 +28,6 @@ public class Computer extends Product {
         System.out.println("Podaj procesor:");
         processor = scanner.nextLine();
         System.out.println("Podaj ilość pamięci RAM:");
-        ramMemory = scanner.nextInt();
+        ramMemory = scanner.nextLine();
     }
 }

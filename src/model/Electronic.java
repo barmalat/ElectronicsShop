@@ -3,8 +3,8 @@ package model;
 import java.math.BigDecimal;
 
 public class Electronic extends Product {
-    public Electronic(String id, String name, BigDecimal price, int quantity) {
-        super(id, name, price, quantity);
+    public Electronic(String id, String name, BigDecimal price, int stock) {
+        super(id, name, price, stock);
     }
 
     @Override
@@ -18,6 +18,6 @@ public class Electronic extends Product {
                 "name = " + name +
                 ", id = " + id +
                 ", price = " + price +
-                ", quantity = " + stock;
+                ", stock = " + stock;
     }
 }

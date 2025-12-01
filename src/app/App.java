@@ -3,7 +3,6 @@ package app;
 import managers.CartManager;
 import managers.OrderProcessor;
 import managers.ProductManager;
-import model.Address;
 import model.Cart;
 import model.Computer;
 import model.Electronic;
@@ -30,15 +29,23 @@ public class App {
 //        productManager.updateProductPrice("002", 4199.99);
 //        productManager.showAll();
 
-        CartManager cartManager = new CartManager();
-        Cart testCart = new Cart();
+//        ** Testy koszyka **
+//        CartManager cartManager = new CartManager();
+//        Cart testCart = new Cart();
+//
+//        cartManager.addToCart(testCart, "001", 2);
+//        cartManager.addToCart(testCart, "S0001", 3);
+//        cartManager.showCart(testCart);
+//        cartManager.makeOrder(testCart);
+//        cartManager.showCart(testCart);
+//
+//        OrderProcessor orderProcessor = new OrderProcessor();
+//
+//        orderProcessor.invoiceGenerate(0);
 
-        cartManager.addToCart(testCart, "001", 2);
-        cartManager.addToCart(testCart, "002", 3);
-        cartManager.showCart(testCart);
-        cartManager.makeOrder(testCart);
-        cartManager.showCart(testCart);
+        AppControl appControl = new AppControl();
 
+        appControl.controlLoop();
 
     }
 }

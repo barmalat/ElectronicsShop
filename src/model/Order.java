@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class Order {
-    private Person customer;
+    private final Person customer;
     private final Map<Product, Integer> finalCart;
     private final BigDecimal totalPrice;
     private final int orderId;
@@ -27,16 +27,16 @@ public class Order {
         return customer;
     }
 
-    public void setCustomer(Person customer) {
-        this.customer = customer;
-    }
-
     public int getOrderId() {
         return orderId;
     }
 
     public Map<Product, Integer> getFinalCart() {
         return finalCart;
+    }
+
+    public static int getStaticOrderId() {
+        return staticOrderId;
     }
 
     private BigDecimal calculateTotalPrice(Map<Product, Integer> finalCart){

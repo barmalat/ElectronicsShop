@@ -27,7 +27,7 @@ public class OrderProcessor {
                 addressParts[3], addressParts[4]));
     }
 
-    public void showFinalCart(int orderId) {
+    private void showFinalCart(int orderId) {
         orders.get(orderId).getFinalCart().forEach((product, quantity) ->
                 System.out.println(product.getName() + ", ilość: " +
                         quantity + ", łączna wartość: " +

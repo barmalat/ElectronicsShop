@@ -43,6 +43,8 @@ public abstract class Product {
         this.price = price;
     }
 
+    public abstract void config();
+
     @Override
     public String toString() {
         return "Product: " +

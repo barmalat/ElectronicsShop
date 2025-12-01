@@ -6,6 +6,7 @@ import model.Person;
 import model.Product;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CartManager {
@@ -15,6 +16,7 @@ public class CartManager {
         if (quantity > product.getStock()) {
             System.err.println("Niestety, wskazana ilość przekracza stany magazynowe!");
         } else {
+            product.config();
             if (cart.getShoppingCart().containsKey(product)) {
                 int oldQuantity = cart.getShoppingCart().get(product);
                 cart.getShoppingCart().replace(product, oldQuantity + quantity);
@@ -39,10 +41,7 @@ public class CartManager {
     }
 
     public void makeOrder(Cart cart) {
-        if (cart.getShoppingCart().isEmpty()) {
-            System.out.println("Koszyk jest pusty, nie można złożyć zamówienia.");
-        }
-        Map<Product, Integer> cartToOrder = cart.getShoppingCart();
+        Map<Product, Integer> cartToOrder = new HashMap<>(cart.getShoppingCart());
         Order order = new Order(new Person(), cartToOrder);
         OrderProcessor.getOrders().add(order);
         System.out.println("Złożono zamówienie. Twój numer zamówienia to: " + order.getOrderId());

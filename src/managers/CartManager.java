@@ -1,5 +1,6 @@
 package managers;
 
+import Exceptions.NoSuchQuantityOfProductException;
 import model.Cart;
 import model.Computer;
 import model.Electronic;
@@ -13,12 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CartManager {
+    ProductManager productManager = new ProductManager();
 
     public void addToCart(Cart cart, String productId, int quantity) {
-        Product productInStock = ProductManager.findById(productId);
+        Product productInStock = productManager.getProductById(productId);
         Product productInCart = copyProductToConfig(productInStock);
         if (quantity > productInStock.getStock()) {
-            System.err.println("Niestety, wskazana ilość przekracza stany magazynowe!");
+            throw new NoSuchQuantityOfProductException("Podana wartość przekracza stany magazynowe");
         } else {
             productInCart.config();
             if (cart.getShoppingCart().containsKey(productInCart)) {

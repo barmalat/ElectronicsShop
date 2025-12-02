@@ -1,11 +1,11 @@
 package model;
 
 public class Address {
-    private String country;
-    private String city;
-    private String street;
-    private String streetNumber;
-    private String apartmentNumber;
+    private final String country;
+    private final String city;
+    private final String street;
+    private final String streetNumber;
+    private final String apartmentNumber;
 
     public Address(String country, String city, String street, String streetNumber, String apartmentNumber) {
         this.country = country;

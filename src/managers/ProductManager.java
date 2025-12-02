@@ -1,5 +1,6 @@
 package managers;
 
+import Exceptions.NoSuchProductException;
 import model.Product;
 
 import java.math.BigDecimal;
@@ -7,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductManager {
-    private static Map<String, Product> productsMap = new HashMap<>();
+    private static final Map<String, Product> productsMap = new HashMap<>();
 
     public void addProduct(Product product) {
         if (!productsMap.containsKey(product.getId())) {
@@ -20,10 +21,9 @@ public class ProductManager {
         }
     }
 
-    public static Product findById(String id) {
+    public Product getProductById(String id) {
         if (!productsMap.containsKey(id)) {
-            System.err.println("Nie znaleziono produktu o podanym ID");
-            return null;
+            throw new NoSuchProductException("Nie znaleziono produktu o takim ID");
         }
         return productsMap.get(id);
     }

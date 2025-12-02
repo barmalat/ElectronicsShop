@@ -1,11 +1,13 @@
 package app;
 
+import Exceptions.NoSuchOptionException;
 import managers.CartManager;
 import managers.OrderProcessor;
 import managers.ProductManager;
 import model.Cart;
 import model.Order;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AppControl {
@@ -19,8 +21,7 @@ public class AppControl {
         Cart temp = new Cart();
         while (option != Option.EXIT) {
             printOptions();
-            option = Option.createFromInt(scanner.nextInt());
-            scanner.nextLine();
+            option = getOption();
 
             switch (option) {
                 case EXIT -> System.out.println("Do zobaczenia!");
@@ -30,8 +31,11 @@ public class AppControl {
                     String idToCart = scanner.nextLine();
                     System.out.println("Podaj ilość jaką chcesz dodać do koszyka");
                     int quantityToCart = scanner.nextInt();
-                    cartManager.addToCart(temp, idToCart, quantityToCart);
-                    cartManager.showCart(temp);
+                    try {
+                        cartManager.addToCart(temp, idToCart, quantityToCart);
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
                 case SHOW_CART -> cartManager.showCart(temp);
                 case MAKE_ORDER -> {
@@ -48,6 +52,25 @@ public class AppControl {
                 default -> System.out.println("Błędna opcja, wprowadź ponownie.");
             }
         }
+    }
+
+    private Option getOption() {
+        boolean optionOk = false;
+        Option option = null;
+        while (!optionOk) {
+            try {
+                option = Option.createFromInt(scanner.nextInt());
+                scanner.nextLine();
+                optionOk = true;
+            } catch (NoSuchOptionException e) {
+                System.err.println(e.getMessage() + ", podaj ponownie:");
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.err.println("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                scanner.nextLine();
+            }
+        }
+        return option;
     }
 
     private void printOptions() {
@@ -77,8 +100,12 @@ public class AppControl {
             return value + " - " + description;
         }
 
-        static Option createFromInt(int option) {
-            return Option.values()[option];
+        static Option createFromInt(int option) throws NoSuchOptionException {
+            try {
+                return Option.values()[option];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoSuchOptionException("Brak opcji o id " + option);
+            }
         }
     }
 }

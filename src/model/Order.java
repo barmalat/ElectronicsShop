@@ -9,7 +9,7 @@ public class Order {
     private final Map<Product, Integer> finalCart;
     private final BigDecimal totalPrice;
     private final int orderId;
-    private LocalDateTime orderTime;
+    private final LocalDateTime orderTime;
 
     private static int staticOrderId = 0;
 
@@ -46,7 +46,7 @@ public class Order {
         return staticOrderId;
     }
 
-    private BigDecimal calculateTotalPrice(Map<Product, Integer> finalCart){
+    private BigDecimal calculateTotalPrice(Map<Product, Integer> finalCart) {
         BigDecimal totalPrice = new BigDecimal("0.00");
         for (Map.Entry<Product, Integer> entry : finalCart.entrySet()) {
             Product product = entry.getKey();

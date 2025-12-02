@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class OrderProcessor {
-    private static List<Order> orders = new ArrayList<>();
+    private static final List<Order> orders = new ArrayList<>();
 
     public static List<Order> getOrders() {
         return orders;
@@ -21,10 +21,18 @@ public class OrderProcessor {
         orders.get(orderId).getCustomer().setFirstName(scanner.nextLine());
         System.out.println("Podaj nazwisko:");
         orders.get(orderId).getCustomer().setLastName(scanner.nextLine());
-        System.out.println("Teraz podaj adres wysyłki w formacie: kraj, miasto, ulica, numer domu, numer mieszkania:");
-        String[] addressParts = scanner.nextLine().split("\\s*,\\s*");
-        orders.get(orderId).getCustomer().setAddress(new Address(addressParts[0], addressParts[1], addressParts[2],
-                addressParts[3], addressParts[4]));
+        boolean addressOk = false;
+        while (!addressOk) {
+            try {
+                System.out.println("Teraz podaj adres wysyłki w formacie: kraj, miasto, ulica, numer domu, numer mieszkania:");
+                String[] addressParts = scanner.nextLine().split("\\s*,\\s*");
+                orders.get(orderId).getCustomer().setAddress(new Address(addressParts[0], addressParts[1], addressParts[2],
+                        addressParts[3], addressParts[4]));
+                addressOk = true;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println("Podano błędny adres");
+            }
+        }
     }
 
     private void showFinalCart(int orderId) {

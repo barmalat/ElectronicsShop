@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Klasa do zarządzania obiektami klasy Product
+ */
 public class ProductManager {
     private static final Map<String, Product> productsMap = new HashMap<>();
 

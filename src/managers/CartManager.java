@@ -13,6 +13,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Klasa do zarządzania obiektami klasy Cart
+ */
+
 public class CartManager {
     ProductManager productManager = new ProductManager();
 

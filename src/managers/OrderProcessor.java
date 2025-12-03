@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Klasa do zarządzania obiektami klasy Order
+ */
+
 public class OrderProcessor {
     private static final List<Order> orders = new ArrayList<>();
 

@@ -1,6 +1,6 @@
 package managers;
 
-import Exceptions.NoSuchQuantityOfProductException;
+import exceptions.NoSuchQuantityOfProductException;
 import model.Cart;
 import model.Computer;
 import model.Electronic;

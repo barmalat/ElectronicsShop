@@ -2,6 +2,7 @@ package managers;
 
 import model.Address;
 import model.Order;
+import threads.OrderProcessingThread;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -50,5 +51,16 @@ public class OrderProcessor {
         System.out.println("Data: " + order.getOrderTime());
         System.out.println("Dane do wysyłki: " + order.getCustomer());
         showFinalCart(orderId);
+    }
+
+    public void invoiceProcess(int orderId) {
+        System.out.println("Generuje fakturę...");
+        Thread thread = new Thread(new OrderProcessingThread(orderId));
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

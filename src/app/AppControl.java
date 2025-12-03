@@ -1,11 +1,12 @@
 package app;
 
-import Exceptions.NoSuchOptionException;
+import exceptions.NoSuchOptionException;
 import managers.CartManager;
 import managers.OrderProcessor;
 import managers.ProductManager;
 import model.Cart;
 import model.Order;
+import threads.OrderProcessingThread;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -20,6 +21,7 @@ public class AppControl {
         Option option = null;
         Cart temp = new Cart();
         while (option != Option.EXIT) {
+            System.out.println();
             printOptions();
             option = getOption();
 
@@ -46,10 +48,8 @@ public class AppControl {
                     cartManager.makeOrder(temp);
                     System.out.println("Celem złożenia zamówienia, musisz podać swoje dane.");
                     orderProcessor.registerCustomer(Order.getStaticOrderId() - 1);
-                    System.out.println("Generuje fakturę...");
-                    orderProcessor.invoiceGenerate(Order.getStaticOrderId() - 1);
+                    orderProcessor.invoiceProcess(Order.getStaticOrderId() - 1);
                 }
-                default -> System.out.println("Błędna opcja, wprowadź ponownie.");
             }
         }
     }

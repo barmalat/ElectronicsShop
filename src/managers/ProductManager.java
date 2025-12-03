@@ -1,6 +1,6 @@
 package managers;
 
-import Exceptions.NoSuchProductException;
+import exceptions.NoSuchProductException;
 import model.Product;
 
 import java.math.BigDecimal;

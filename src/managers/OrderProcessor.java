@@ -42,6 +42,9 @@ public class OrderProcessor {
                         quantity + ", łączna wartość: " +
                         product.getPrice().multiply(BigDecimal.valueOf(quantity))));
         System.out.println("Łączna wartość zamówienia: " + orders.get(orderId).getTotalPrice());
+        if (!orders.get(orderId).getTotalPrice().equals(orders.get(orderId).getFinalTotalPrice())){
+            System.out.println("Do zapłaty po rabacie: " + orders.get(orderId).getFinalTotalPrice());
+        }
     }
 
     public void invoiceGenerate(int orderId) {

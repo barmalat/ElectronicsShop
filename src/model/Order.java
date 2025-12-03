@@ -8,6 +8,7 @@ public class Order {
     private final Person customer;
     private final Map<Product, Integer> finalCart;
     private final BigDecimal totalPrice;
+    private final BigDecimal finalTotalPrice;
     private final int orderId;
     private final LocalDateTime orderTime;
 
@@ -17,6 +18,7 @@ public class Order {
         this.customer = customer;
         this.finalCart = finalCart;
         this.totalPrice = calculateTotalPrice(finalCart);
+        this.finalTotalPrice = calculateFinalTotalPrice(totalPrice);
         this.orderId = staticOrderId;
         this.orderTime = LocalDateTime.now();
         staticOrderId++;
@@ -24,6 +26,10 @@ public class Order {
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
+    }
+
+    public BigDecimal getFinalTotalPrice() {
+        return finalTotalPrice;
     }
 
     public Person getCustomer() {
@@ -54,5 +60,11 @@ public class Order {
             totalPrice = totalPrice.add(product.price.multiply(BigDecimal.valueOf(quantity)));
         }
         return totalPrice;
+    }
+
+    private BigDecimal calculateFinalTotalPrice(BigDecimal totalFinalPrice) {
+        if (totalFinalPrice.compareTo(new BigDecimal(5000)) > 0) {
+            return totalFinalPrice.multiply(BigDecimal.valueOf(0.9));
+        } else return totalFinalPrice;
     }
 }

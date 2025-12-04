@@ -8,6 +8,7 @@ import threads.OrderProcessingThread;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Klasa do zarządzania obiektami klasy Order
@@ -43,6 +44,20 @@ public class OrderProcessor {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void invoiceProcessAsync(int orderId) {
+        System.out.println("Generuje fakturę... (asynchronicznie)");
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(2000);
+                invoiceGenerate(orderId);
+                System.out.println("Zamówienie zostało przetworzone (asynchronicznie)");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void setCustomerAddress(Scanner scanner, Order order) {

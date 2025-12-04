@@ -73,6 +73,7 @@ public class AppControl {
             System.out.println("Celem sfinalizowania zamówienia, musisz podać swoje dane.");
             orderProcessor.registerCustomer(Order.getStaticOrderId() - 1);
             orderProcessor.invoiceProcess(Order.getStaticOrderId() - 1);
+            //orderProcessor.invoiceProcessAsync(Order.getStaticOrderId() - 1);
         }
     }
 

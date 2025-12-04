@@ -1,7 +1,8 @@
 package model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 public class Order {
@@ -10,7 +11,7 @@ public class Order {
     private final BigDecimal totalPrice;
     private final BigDecimal finalTotalPrice;
     private final int orderId;
-    private final LocalDateTime orderTime;
+    private final ZonedDateTime orderTime;
 
     private static int staticOrderId = 0;
 
@@ -20,7 +21,7 @@ public class Order {
         this.totalPrice = calculateTotalPrice(finalCart);
         this.finalTotalPrice = calculateFinalTotalPrice(totalPrice);
         this.orderId = staticOrderId;
-        this.orderTime = LocalDateTime.now();
+        this.orderTime = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
         staticOrderId++;
     }
 
@@ -44,7 +45,7 @@ public class Order {
         return finalCart;
     }
 
-    public LocalDateTime getOrderTime() {
+    public ZonedDateTime getOrderTime() {
         return orderTime;
     }
 

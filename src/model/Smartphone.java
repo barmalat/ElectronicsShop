@@ -1,15 +1,19 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Smartphone extends Product {
-    private String color = "Kolor do konfiguracji własnej";
-    private String batteryCapacity = "Bateria do konfiguracji własnej";
-    private String accessories = "Akcesoria do konfiguracji własnej";
+    private final Map<ConfigKey, String> config;
 
-    public Smartphone(String id, String name, BigDecimal price, int quantity) {
-        super(id, name, price, quantity);
+    public Smartphone(String id, String name, BigDecimal price, int stock) {
+        super(id, name, price, stock);
+        this.config = new HashMap<>(Map.of(ConfigKey.COLOR,"Kolor do konfiguracji własnej", ConfigKey.BATTERY, "Bateria do konfiguracji własnej", ConfigKey.ACCESSORIES,"Akcesoria do konfiguracji własnej"));
+    }
+
+    public Map<ConfigKey, String> getConfig() {
+        return config;
     }
 
     @Override
@@ -17,21 +21,16 @@ public class Smartphone extends Product {
         return "Smartphone: " +
                 "name = " + name +
                 ", id = " + id +
-                ", color = " + color +
-                ", batteryCapacity = " + batteryCapacity +
-                ", accessories = " + accessories +
+                ", color = " + config.get(ConfigKey.COLOR) +
+                ", batteryCapacity = " + config.get(ConfigKey.BATTERY) +
+                ", accessories = " + config.get(ConfigKey.ACCESSORIES) +
                 ", price = " + price +
                 ", stock = " + stock;
     }
 
-    public void config() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Konfiguracja smartfona: " + name);
-        System.out.println("Podaj kolor:");
-        color = scanner.nextLine();
-        System.out.println("Podaj pojemność baterii:");
-        batteryCapacity = scanner.nextLine();
-        System.out.println("Podaj dodatkowe akcesoria do smartfona:");
-        accessories = scanner.nextLine();
+    public enum ConfigKey {
+        COLOR,
+        BATTERY,
+        ACCESSORIES
     }
 }

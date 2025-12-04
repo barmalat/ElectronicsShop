@@ -1,9 +1,9 @@
 package managers;
 
+import exceptions.NoSuchOptionOfConfigException;
 import exceptions.NoSuchQuantityOfProductException;
 import model.Cart;
 import model.Computer;
-import model.Electronic;
 import model.Order;
 import model.Person;
 import model.Product;
@@ -11,7 +11,7 @@ import model.Smartphone;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Klasa do zarządzania obiektami klasy Cart
@@ -20,42 +20,48 @@ import java.util.Map;
 public class CartManager {
     ProductManager productManager = new ProductManager();
 
-    public void addToCart(Cart cart, String productId, int quantity) {
+    public void addToCart(Cart cart, String productId, int quantity, String configuration) {
         Product productInStock = productManager.getProductById(productId);
-        Product productInCart = copyProductToConfig(productInStock);
+        Product productToBuy = copyProductToConfig(productInStock);
         if (quantity > productInStock.getStock()) {
             throw new NoSuchQuantityOfProductException("Podana wartość przekracza stany magazynowe");
         } else {
-            productInCart.config();
-            if (cart.getShoppingCart().containsKey(productInCart)) {
-                int oldQuantity = cart.getShoppingCart().get(productInCart);
-                cart.getShoppingCart().replace(productInCart, oldQuantity + quantity);
-            } else {
-                cart.getShoppingCart().put(productInCart, quantity);
-            }
+            configureProduct(productToBuy, configuration);
+
+            cart.getItems().merge(productToBuy, quantity, Integer::sum);
             System.out.println("Dodano produkt do koszyka.");
             productInStock.setStock(productInStock.getStock() - quantity);
         }
     }
 
     public void showCart(Cart cart) {
-        if (cart.getShoppingCart().isEmpty()) {
+        if (cart.getItems().isEmpty()) {
             System.out.println("Koszyk jest pusty.");
         } else {
             System.out.println("Zawartość koszyka:");
-            cart.getShoppingCart().forEach((product, quantity) ->
-                    System.out.println(product.getName() + ", ilość: " +
-                            quantity + ", łączna wartość: " +
-                            product.getPrice().multiply(BigDecimal.valueOf(quantity))));
+            cart.getItems().forEach((product, quantity) -> {
+                System.out.print(product.getName());
+                if (product instanceof Computer computer) {
+                    System.out.print(" (konfiguracja: " + computer.getConfig().get(Computer.ConfigKey.CPU) +
+                            ", " + computer.getConfig().get(Computer.ConfigKey.RAM) + ")");
+                } else if (product instanceof Smartphone smartphone) {
+                    System.out.print(" (konfiguracja: " + smartphone.getConfig().get(Smartphone.ConfigKey.COLOR) +
+                            ", " + smartphone.getConfig().get(Smartphone.ConfigKey.BATTERY) +
+                            ", " + smartphone.getConfig().get(Smartphone.ConfigKey.ACCESSORIES) + ")");
+                }
+                System.out.println(", ilość: " + quantity +
+                        ", łączna wartość: " + product.getPrice().multiply(BigDecimal.valueOf(quantity)));
+            });
         }
     }
 
     public void makeOrder(Cart cart) {
-        Map<Product, Integer> cartToOrder = new HashMap<>(cart.getShoppingCart());
-        Order order = new Order(new Person(), cartToOrder);
-        OrderProcessor.getOrders().add(order);
+        Order order = new Order(new Person(), new HashMap<>(cart.getItems()));
+        synchronized (OrderRepository.getOrders()) {
+            OrderRepository.getOrders().add(order);
+        }
         System.out.println("Złożono zamówienie. Twój numer zamówienia to: " + order.getOrderId());
-        cart.getShoppingCart().clear();
+        cart.getItems().clear();
     }
 
     private Product copyProductToConfig(Product orginalProduct) {
@@ -64,6 +70,27 @@ public class CartManager {
         } else if (orginalProduct instanceof Smartphone) {
             return new Smartphone(orginalProduct.getId(), orginalProduct.getName(), orginalProduct.getPrice(), orginalProduct.getStock());
         }
-        return new Electronic(orginalProduct.getId(), orginalProduct.getName(), orginalProduct.getPrice(), orginalProduct.getStock());
+        return orginalProduct;
+    }
+
+    private void configureProduct(Product product, String configuration) {
+        List<String> configurationParts = List.of(configuration.split("\\s*,\\s*", 3));
+        switch (product) {
+            case Computer computer -> {
+                if (configurationParts.size() == computer.getConfig().size()) {
+                    computer.getConfig().replace(Computer.ConfigKey.CPU, configurationParts.getFirst());
+                    computer.getConfig().replace(Computer.ConfigKey.RAM, configurationParts.get(1));
+                } else throw new NoSuchOptionOfConfigException("Podano błędny format konfiguracji");
+            }
+            case Smartphone smartphone -> {
+                if (configurationParts.size() == smartphone.getConfig().size()) {
+                    smartphone.getConfig().replace(Smartphone.ConfigKey.COLOR, configurationParts.getFirst());
+                    smartphone.getConfig().replace(Smartphone.ConfigKey.BATTERY, configurationParts.get(1));
+                    smartphone.getConfig().replace(Smartphone.ConfigKey.ACCESSORIES, configurationParts.get(2));
+                } else throw new NoSuchOptionOfConfigException("Podano błędny format konfiguracji");
+            }
+            default -> {
+            }
+        }
     }
 }

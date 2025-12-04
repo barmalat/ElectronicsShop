@@ -8,11 +8,11 @@ public abstract class Product {
     protected BigDecimal price;
     protected int stock;
 
-    public Product(String id, String name, BigDecimal price, int quantity) {
+    public Product(String id, String name, BigDecimal price, int stock) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.stock = quantity;
+        this.stock = stock;
     }
 
     public int getStock() {
@@ -42,8 +42,6 @@ public abstract class Product {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
-    public abstract void config();
 
     @Override
     public String toString() {

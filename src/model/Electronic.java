@@ -8,11 +8,6 @@ public class Electronic extends Product {
     }
 
     @Override
-    public void config() {
-        System.out.println("Brak możliwości konfiguracji.");
-    }
-
-    @Override
     public String toString() {
         return "Electronic: " +
                 "name = " + name +

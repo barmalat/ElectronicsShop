@@ -1,14 +1,19 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Computer extends Product {
-    private String processor = "CPU do konfiguracji własnej";
-    private String ramMemory = "RAM do konfiguracji własnej";
+    private final Map<ConfigKey, String> config;
 
     public Computer(String id, String name, BigDecimal price, int stock) {
         super(id, name, price, stock);
+        this.config = new HashMap<>(Map.of(ConfigKey.CPU, "CPU do konfiguracji własnej", ConfigKey.RAM, "RAM do konfiguracji własnej"));
+    }
+
+    public Map<ConfigKey, String> getConfig() {
+        return config;
     }
 
     @Override
@@ -16,18 +21,14 @@ public class Computer extends Product {
         return "Computer: " +
                 "name = " + name +
                 ", id = " + id +
-                ", processor = " + processor +
-                ", ramMemory = " + ramMemory +
+                ", processor = " + config.get(ConfigKey.CPU) +
+                ", ramMemory = " + config.get(ConfigKey.RAM) +
                 ", price = " + price +
                 ", stock = " + stock;
     }
 
-    public void config() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Konfiguracja komputera: " + name);
-        System.out.println("Podaj procesor:");
-        processor = scanner.nextLine();
-        System.out.println("Podaj ilość pamięci RAM:");
-        ramMemory = scanner.nextLine();
+    public enum ConfigKey {
+        CPU,
+        RAM
     }
 }

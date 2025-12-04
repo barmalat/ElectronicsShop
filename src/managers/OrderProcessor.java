@@ -28,11 +28,9 @@ public class OrderProcessor {
 
     public void invoiceGenerate(int orderId) {
         Order order = OrderRepository.getOrders().get(orderId);
-        System.out.println("FAKTURA:");
-        System.out.println("Zamówienie nr: " + order.getOrderId());
-        System.out.println("Data: " + order.getOrderTime());
-        System.out.println("Dane do wysyłki: " + order.getCustomer());
-        showFinalCart(order);
+        System.out.printf("FAKTURA:%nZamówienie nr: %s%nData: %s%nDane do wysyłki:%s%n",
+                order.getOrderId(), order.getOrderTime(), order.getCustomer());
+        showOrder(order);
     }
 
     public void invoiceProcess(int orderId) {
@@ -46,10 +44,10 @@ public class OrderProcessor {
         }
     }
 
-    public void invoiceProcessAsync(int orderId) {
+    public CompletableFuture<Void> invoiceProcessAsync(int orderId) {
         System.out.println("Generuje fakturę... (asynchronicznie)");
 
-        CompletableFuture.runAsync(() -> {
+        return CompletableFuture.runAsync(() -> {
             try {
                 Thread.sleep(2000);
                 invoiceGenerate(orderId);
@@ -75,16 +73,13 @@ public class OrderProcessor {
         }
     }
 
-    private void showFinalCart(Order order) {
+    private void showOrder(Order order) {
         order.getFinalCart().forEach((product, quantity) -> {
             System.out.print(product.getName());
             if (product instanceof Computer computer) {
-                System.out.print(" (konfiguracja: " + computer.getConfig().get(Computer.ConfigKey.CPU) +
-                        ", " + computer.getConfig().get(Computer.ConfigKey.RAM) + ")");
+                computer.getConfigInfo();
             } else if (product instanceof Smartphone smartphone) {
-                System.out.print(" (konfiguracja: " + smartphone.getConfig().get(Smartphone.ConfigKey.COLOR) +
-                        ", " + smartphone.getConfig().get(Smartphone.ConfigKey.BATTERY) +
-                        ", " + smartphone.getConfig().get(Smartphone.ConfigKey.ACCESSORIES) + ")");
+                smartphone.getConfigInfo();
             }
             System.out.println(", ilość: " + quantity +
                     ", łączna wartość: " + product.getPrice().multiply(BigDecimal.valueOf(quantity)));

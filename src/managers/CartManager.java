@@ -8,6 +8,7 @@ import model.Order;
 import model.Person;
 import model.Product;
 import model.Smartphone;
+import model.common.ConfigKey;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -42,12 +43,9 @@ public class CartManager {
             cart.getItems().forEach((product, quantity) -> {
                 System.out.print(product.getName());
                 if (product instanceof Computer computer) {
-                    System.out.print(" (konfiguracja: " + computer.getConfig().get(Computer.ConfigKey.CPU) +
-                            ", " + computer.getConfig().get(Computer.ConfigKey.RAM) + ")");
+                    computer.getConfigInfo();
                 } else if (product instanceof Smartphone smartphone) {
-                    System.out.print(" (konfiguracja: " + smartphone.getConfig().get(Smartphone.ConfigKey.COLOR) +
-                            ", " + smartphone.getConfig().get(Smartphone.ConfigKey.BATTERY) +
-                            ", " + smartphone.getConfig().get(Smartphone.ConfigKey.ACCESSORIES) + ")");
+                    smartphone.getConfigInfo();
                 }
                 System.out.println(", ilość: " + quantity +
                         ", łączna wartość: " + product.getPrice().multiply(BigDecimal.valueOf(quantity)));
@@ -57,9 +55,7 @@ public class CartManager {
 
     public void makeOrder(Cart cart) {
         Order order = new Order(new Person(), new HashMap<>(cart.getItems()));
-        synchronized (OrderRepository.getOrders()) {
-            OrderRepository.getOrders().add(order);
-        }
+        OrderRepository.addToOrders(order);
         System.out.println("Złożono zamówienie. Twój numer zamówienia to: " + order.getOrderId());
         cart.getItems().clear();
     }
@@ -77,16 +73,18 @@ public class CartManager {
         List<String> configurationParts = List.of(configuration.split("\\s*,\\s*", 3));
         switch (product) {
             case Computer computer -> {
-                if (configurationParts.size() == computer.getConfig().size()) {
-                    computer.getConfig().replace(Computer.ConfigKey.CPU, configurationParts.getFirst());
-                    computer.getConfig().replace(Computer.ConfigKey.RAM, configurationParts.get(1));
+                var productConfig = computer.getConfig();
+                if (configurationParts.size() == productConfig.size()) {
+                    productConfig.replace(ConfigKey.CPU, configurationParts.getFirst());
+                    productConfig.replace(ConfigKey.RAM, configurationParts.get(1));
                 } else throw new NoSuchOptionOfConfigException("Podano błędny format konfiguracji");
             }
             case Smartphone smartphone -> {
-                if (configurationParts.size() == smartphone.getConfig().size()) {
-                    smartphone.getConfig().replace(Smartphone.ConfigKey.COLOR, configurationParts.getFirst());
-                    smartphone.getConfig().replace(Smartphone.ConfigKey.BATTERY, configurationParts.get(1));
-                    smartphone.getConfig().replace(Smartphone.ConfigKey.ACCESSORIES, configurationParts.get(2));
+                var productConfig = smartphone.getConfig();
+                if (configurationParts.size() == productConfig.size()) {
+                    productConfig.replace(ConfigKey.COLOR, configurationParts.getFirst());
+                    productConfig.replace(ConfigKey.BATTERY, configurationParts.get(1));
+                    productConfig.replace(ConfigKey.ACCESSORIES, configurationParts.get(2));
                 } else throw new NoSuchOptionOfConfigException("Podano błędny format konfiguracji");
             }
             default -> {

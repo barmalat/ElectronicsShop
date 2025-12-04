@@ -1,5 +1,7 @@
 package model;
 
+import model.common.ConfigKey;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,11 +11,17 @@ public class Smartphone extends Product {
 
     public Smartphone(String id, String name, BigDecimal price, int stock) {
         super(id, name, price, stock);
-        this.config = new HashMap<>(Map.of(ConfigKey.COLOR,"Kolor do konfiguracji własnej", ConfigKey.BATTERY, "Bateria do konfiguracji własnej", ConfigKey.ACCESSORIES,"Akcesoria do konfiguracji własnej"));
+        this.config = new HashMap<>(Map.of(ConfigKey.COLOR, "Kolor do konfiguracji własnej", ConfigKey.BATTERY, "Bateria do konfiguracji własnej", ConfigKey.ACCESSORIES, "Akcesoria do konfiguracji własnej"));
     }
 
     public Map<ConfigKey, String> getConfig() {
         return config;
+    }
+
+    public void getConfigInfo() {
+        System.out.print(" (konfiguracja: " + config.get(ConfigKey.COLOR) +
+                ", " + config.get(ConfigKey.BATTERY) +
+                ", " + config.get(ConfigKey.ACCESSORIES) + ")");
     }
 
     @Override
@@ -26,11 +34,5 @@ public class Smartphone extends Product {
                 ", accessories = " + config.get(ConfigKey.ACCESSORIES) +
                 ", price = " + price +
                 ", stock = " + stock;
-    }
-
-    public enum ConfigKey {
-        COLOR,
-        BATTERY,
-        ACCESSORIES
     }
 }

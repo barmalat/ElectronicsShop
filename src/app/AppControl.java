@@ -9,6 +9,7 @@ import model.Computer;
 import model.Order;
 import model.Product;
 import model.Smartphone;
+import model.common.AppOption;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -20,9 +21,9 @@ public class AppControl {
     OrderProcessor orderProcessor = new OrderProcessor();
 
     void controlLoop() {
-        Option option = null;
+        AppOption option = null;
         Cart temp = new Cart();
-        while (option != Option.EXIT) {
+        while (option != AppOption.EXIT) {
             System.out.println();
             printOptions();
             option = getOption();
@@ -73,16 +74,18 @@ public class AppControl {
             System.out.println("Celem sfinalizowania zamówienia, musisz podać swoje dane.");
             orderProcessor.registerCustomer(Order.getStaticOrderId() - 1);
             orderProcessor.invoiceProcess(Order.getStaticOrderId() - 1);
-            //orderProcessor.invoiceProcessAsync(Order.getStaticOrderId() - 1);
+//            orderProcessor.invoiceProcessAsync(Order.getStaticOrderId() - 1);
+//            var test = orderProcessor.invoiceProcessAsync(Order.getStaticOrderId() - 1);
+//            test.join();
         }
     }
 
-    private Option getOption() {
+    private AppOption getOption() {
         boolean optionOk = false;
-        Option option = null;
+        AppOption option = null;
         while (!optionOk) {
             try {
-                option = Option.createFromInt(scanner.nextInt());
+                option = AppOption.createFromInt(scanner.nextInt());
                 scanner.nextLine();
                 optionOk = true;
             } catch (NoSuchOptionException e) {
@@ -98,37 +101,8 @@ public class AppControl {
 
     private void printOptions() {
         System.out.println("Wybierz opcję: ");
-        for (Option option : Option.values()) {
+        for (AppOption option : AppOption.values()) {
             System.out.println(option.toString());
-        }
-    }
-
-    private enum Option {
-        EXIT(0, "Wyjście z programu"),
-        SHOW_ALL_PRODUCTS(1, "Wyświetl dostępne produkty"),
-        ADD_TO_CART(2, "Dodaj do koszyka"),
-        SHOW_CART(3, "Wyświetl koszyk"),
-        MAKE_ORDER(4, "Złóż zamówienie");
-
-        private final int value;
-        private final String description;
-
-        Option(int value, String description) {
-            this.value = value;
-            this.description = description;
-        }
-
-        @Override
-        public String toString() {
-            return value + " - " + description;
-        }
-
-        static Option createFromInt(int option) throws NoSuchOptionException {
-            try {
-                return Option.values()[option];
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new NoSuchOptionException("Brak opcji o id " + option);
-            }
         }
     }
 }

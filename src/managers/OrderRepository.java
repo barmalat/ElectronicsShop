@@ -15,4 +15,8 @@ public class OrderRepository {
     public static List<Order> getOrders() {
         return orders;
     }
+
+    public static synchronized void addToOrders(Order order){
+        orders.add(order);
+    }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import model.common.ConfigKey;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +18,11 @@ public class Computer extends Product {
         return config;
     }
 
+    public void getConfigInfo() {
+        System.out.print(" (konfiguracja: " + config.get(ConfigKey.CPU) +
+                ", " + config.get(ConfigKey.RAM) + ")");
+    }
+
     @Override
     public String toString() {
         return "Computer: " +
@@ -25,10 +32,5 @@ public class Computer extends Product {
                 ", ramMemory = " + config.get(ConfigKey.RAM) +
                 ", price = " + price +
                 ", stock = " + stock;
-    }
-
-    public enum ConfigKey {
-        CPU,
-        RAM
     }
 }
